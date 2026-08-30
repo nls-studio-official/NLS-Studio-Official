@@ -3,336 +3,235 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NLS Studio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>NLS Studio - Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body {
-      background: radial-gradient(circle at top left, #1a1c29, #0a0b10);
-      color: #e2e8f0;
+      background: radial-gradient(circle at top left, #0f172a, #020617, #000000);
+      color: #f8fafc;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       padding: 20px;
+      overflow: hidden;
     }
-    .card {
-      background: rgba(22, 27, 34, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 35px;
+    .container {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 45px 35px;
       width: 100%;
-      max-width: 420px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      animation: fadeIn 0.4s ease-out;
+      max-width: 460px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      position: relative;
+      animation: fadeIn 0.6s ease-out;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    h2 { font-size: 26px; font-weight: 700; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 24px; text-align: center; }
-    h3 { font-size: 14px; text-transform: uppercase; tracking: 1px; color: #94a3b8; margin: 24px 0 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px; text-align: left; }
-    .form-group { text-align: left; margin-bottom: 14px; }
-    label { display: block; font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 6px; }
-    input, select {
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #38bdf8;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    }
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 30%, #38bdf8 70%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    p.description {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .secret-trigger {
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
+      display: inline-block;
+      transition: transform 0.2s ease, filter 0.2s ease;
+      margin-bottom: 10px;
+    }
+    .secret-trigger:hover {
+      transform: scale(1.15) rotate(10deg);
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
+    }
+    .hidden { display: none !important; }
+    
+    /* SECRET ACCESS FORM */
+    .secret-box {
+      margin-top: 15px;
+      animation: fadeIn 0.3s ease-out;
+    }
+    input {
       width: 100%;
       padding: 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(15, 23, 42, 0.6);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(15, 23, 42, 0.8);
       color: #fff;
       font-size: 14px;
+      text-align: center;
+      letter-spacing: 2px;
       outline: none;
-      transition: all 0.2s ease;
+      text-transform: uppercase;
+      transition: border-color 0.2s ease;
     }
-    input:focus, select:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
-    }
-    .dob-group { display: flex; gap: 8px; }
-    .dob-group select { width: 33.33%; }
+    input:focus { border-color: #38bdf8; }
     button {
       width: 100%;
       padding: 12px;
-      margin-top: 12px;
+      margin-top: 10px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       background: linear-gradient(135deg, #0284c7, #2563eb);
       color: white;
       font-weight: 600;
       font-size: 14px;
       cursor: pointer;
-      transition: transform 0.1s ease, filter 0.2s ease;
+      transition: filter 0.2s ease;
     }
     button:hover { filter: brightness(1.1); }
-    button:active { transform: scale(0.98); }
-    .btn-google { background: #ea4335; margin-top: 14px; }
-    .btn-action { background: linear-gradient(135deg, #16a34a, #059669); }
-    p { font-size: 13px; color: #94a3b8; margin-top: 18px; text-align: center; }
-    a { color: #38bdf8; font-weight: 600; cursor: pointer; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .hidden { display: none !important; }
-    .error { color: #f87171; font-size: 13px; margin-top: 10px; text-align: center; }
-    .success { color: #4ade80; font-size: 13px; margin-top: 10px; text-align: center; }
-    .divider { margin: 20px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); line-height: 0.1em; text-align: center; }
-    .divider span { background: #161b22; padding: 0 10px; color: #64748b; font-size: 12px; }
-    .info-row { display: flex; justify-content: space-between; font-size: 13px; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-    .info-label { color: #94a3b8; }
-    .info-val { color: #fff; font-weight: 600; }
+    .error-msg { color: #f87171; font-size: 12px; margin-top: 8px; }
+
+    /* DEV DASHBOARD */
+    .dev-badge {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: rgba(34, 197, 94, 0.4);
+      color: #4ade80;
+    }
+    .dev-dot { background-color: #4ade80; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+    .status-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 45%;
+      background: linear-gradient(90deg, #4ade80, #38bdf8);
+      border-radius: 4px;
+    }
+    .btn-exit { background: #dc2626; margin-top: 20px; }
   </style>
 </head>
 <body>
 
-  <div id="login-box" class="card">
-    <h2>NLS Studio Login</h2>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" id="login-email" placeholder="name@domain.com" required>
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="login-password" placeholder="••••••••" required>
-    </div>
-    <button id="btn-login">Log In</button>
-    
-    <div class="divider"><span>OR</span></div>
-    <button id="btn-google-login" class="btn-google">Sign in with Google</button>
+  <!-- PUBLIC COMING SOON CARD -->
+  <div id="public-view" class="container">
+    <div class="secret-trigger" id="secret-btn" title="???">🛠️</div>
+    <br>
+    <div class="badge"><div class="pulse-dot"></div> Under Development</div>
+    <h1>NLS Studio</h1>
+    <p class="description">We are crafting something extraordinary. Our platform is currently undergoing active development and will launch soon.</p>
 
-    <p id="login-error" class="error"></p>
-    <p>Don't have an account? <a id="go-to-signup">Sign Up</a></p>
+    <!-- SECRET CODE INPUT AREA -->
+    <div id="secret-box" class="secret-box hidden">
+      <input type="password" id="access-code" placeholder="Enter Access Code">
+      <button id="btn-unlock">Unlock Developer Portal</button>
+      <p id="code-error" class="error-msg"></p>
+    </div>
   </div>
 
-  <div id="signup-box" class="card hidden">
-    <h2>Join NLS Studio</h2>
-    <div class="form-group">
-      <label>Username</label>
-      <input type="text" id="signup-username" placeholder="Choose a handle" required>
-    </div>
-    
-    <div class="form-group">
-      <label>Birthday</label>
-      <div class="dob-group">
-        <select id="dob-month" required>
-          <option value="" disabled selected>Month</option>
-          <option value="Jan">Jan</option><option value="Feb">Feb</option>
-          <option value="Mar">Mar</option><option value="Apr">Apr</option>
-          <option value="May">May</option><option value="Jun">Jun</option>
-          <option value="Jul">Jul</option><option value="Aug">Aug</option>
-          <option value="Sep">Sep</option><option value="Oct">Oct</option>
-          <option value="Nov">Nov</option><option value="Dec">Dec</option>
-        </select>
-        <select id="dob-day" required>
-          <option value="" disabled selected>Day</option>
-        </select>
-        <select id="dob-year" required>
-          <option value="" disabled selected>Year</option>
-        </select>
+  <!-- DEVELOPER MODE DASHBOARD -->
+  <div id="dev-view" class="container hidden">
+    <div class="badge dev-badge"><div class="pulse-dot dev-dot"></div> Developer Mode</div>
+    <h1>Welcome, Developer</h1>
+    <p class="description">Authenticated Session Active. You have full system preview privileges.</p>
+
+    <div class="status-card">
+      <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;">
+        <span>Official Build Progress</span>
+        <span style="color: #4ade80;">45% Ready</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label>Email Address</label>
-      <input type="email" id="signup-email" placeholder="name@domain.com" required>
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="signup-password" placeholder="••••••••" required>
-    </div>
-    <div class="form-group">
-      <label>Phone Number (Optional)</label>
-      <input type="tel" id="signup-phone" placeholder="+1 234 567 8900">
-    </div>
-
-    <button id="btn-signup">Create Account</button>
-    
-    <div class="divider"><span>OR</span></div>
-    <button id="btn-google-signup" class="btn-google">Sign up with Google</button>
-
-    <p id="signup-error" class="error"></p>
-    <p>Already a member? <a id="go-to-login">Log In</a></p>
+    <button id="btn-lock" class="btn-exit">Exit Developer Mode</button>
   </div>
 
-  <div id="dashboard-box" class="card hidden">
-    <h2>NLS Studio</h2>
-    <p>Welcome back, <strong id="user-display-name" style="color:#38bdf8;">...</strong></p>
-    
-    <h3>Account Details</h3>
-    <div class="info-row"><span class="info-label">Email</span><span id="setting-email" class="info-val">...</span></div>
-    <div class="info-row"><span class="info-label">Password</span><span class="info-val">••••••••</span></div>
-    <div class="info-row"><span class="info-label">Phone</span><span id="setting-phone" class="info-val">Not set</span></div>
-    <div class="info-row"><span class="info-label">Birthday</span><span id="setting-dob" class="info-val">Not set</span></div>
-    <div class="info-row"><span class="info-label">Joined</span><span id="setting-joined" class="info-val">...</span></div>
+  <script>
+    const secretBtn = document.getElementById('secret-btn');
+    const secretBox = document.getElementById('secret-box');
+    const accessCodeInput = document.getElementById('access-code');
+    const unlockBtn = document.getElementById('btn-unlock');
+    const codeError = document.getElementById('code-error');
+    const publicView = document.getElementById('public-view');
+    const devView = document.getElementById('dev-view');
+    const lockBtn = document.getElementById('btn-lock');
 
-    <h3>Security</h3>
-    <div class="form-group">
-      <input type="password" id="new-password" placeholder="Enter new password">
-    </div>
-    <button id="btn-change-pass" class="btn-action">Update Password</button>
-    
-    <p id="settings-msg"></p>
-    <button id="btn-logout" style="background: #dc2626; margin-top: 20px;">Sign Out</button>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updatePassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCHKeqNYWuhLEg12Tge0ND5WjDlQurua_0",
-      authDomain: "nls-studio-official.firebaseapp.com",
-      databaseURL: "https://nls-studio-official-default-rtdb.firebaseio.com",
-      projectId: "nls-studio-official",
-      storageBucket: "nls-studio-official.firebasestorage.app",
-      messagingSenderId: "182900300287",
-      appId: "1:182900300287:web:dcb9a143b04130a8d66fca"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getDatabase(app);
-    const googleProvider = new GoogleAuthProvider();
-
-    // Populate Roblox-style Date Pickers
-    const daySelect = document.getElementById('dob-day');
-    for (let i = 1; i <= 31; i++) {
-      let opt = document.createElement('option');
-      opt.value = i; opt.textContent = i;
-      daySelect.appendChild(opt);
-    }
-
-    const yearSelect = document.getElementById('dob-year');
-    for (let i = 2026; i >= 1920; i--) {
-      let opt = document.createElement('option');
-      opt.value = i; opt.textContent = i;
-      yearSelect.appendChild(opt);
-    }
-
-    // Toggle Forms
-    document.getElementById('go-to-signup').addEventListener('click', () => {
-      document.getElementById('login-box').classList.add('hidden');
-      document.getElementById('signup-box').classList.remove('hidden');
-    });
-    document.getElementById('go-to-login').addEventListener('click', () => {
-      document.getElementById('signup-box').classList.add('hidden');
-      document.getElementById('login-box').classList.remove('hidden');
+    // Toggle secret code input box on tapping icon
+    secretBtn.addEventListener('click', () => {
+      secretBox.classList.toggle('hidden');
+      codeError.textContent = '';
+      accessCodeInput.value = '';
     });
 
-    // Save Database Record
-    async function handleUserData(user, customData = {}) {
-      const userRef = ref(db, 'members/' + user.uid);
-      const snapshot = await get(userRef);
-      if (!snapshot.exists()) {
-        await set(userRef, {
-          username: customData.username || user.displayName || user.email.split('@')[0],
-          email: user.email,
-          phone: customData.phone || 'Not set',
-          birthday: customData.birthday || 'Not set',
-          joinedAt: new Date().toLocaleDateString()
-        });
-      }
-    }
-
-    // Handlers
-    const loginWithGoogle = async () => {
-      try {
-        const result = await signInWithPopup(auth, googleProvider);
-        await handleUserData(result.user);
-      } catch (err) {
-        document.getElementById('login-error').textContent = err.message;
-        document.getElementById('signup-error').textContent = err.message;
-      }
-    };
-
-    document.getElementById('btn-google-login').addEventListener('click', loginWithGoogle);
-    document.getElementById('btn-google-signup').addEventListener('click', loginWithGoogle);
-
-    document.getElementById('btn-signup').addEventListener('click', async () => {
-      const email = document.getElementById('signup-email').value;
-      const password = document.getElementById('signup-password').value;
-      const username = document.getElementById('signup-username').value;
-      const phone = document.getElementById('signup-phone').value;
-      const m = document.getElementById('dob-month').value;
-      const d = document.getElementById('dob-day').value;
-      const y = document.getElementById('dob-year').value;
-      const errorEl = document.getElementById('signup-error');
-      errorEl.textContent = '';
-
-      if (!m || !d || !y) {
-        errorEl.textContent = "Please select your complete birthday.";
-        return;
-      }
-
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await handleUserData(userCredential.user, { username, phone, birthday: `${m} ${d}, ${y}` });
-      } catch (err) {
-        errorEl.textContent = err.message;
-      }
-    });
-
-    document.getElementById('btn-login').addEventListener('click', async () => {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      const errorEl = document.getElementById('login-error');
-      errorEl.textContent = '';
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (err) {
-        errorEl.textContent = err.message;
-      }
-    });
-
-    document.getElementById('btn-change-pass').addEventListener('click', async () => {
-      const newPass = document.getElementById('new-password').value;
-      const msgEl = document.getElementById('settings-msg');
-      if (!newPass) {
-        msgEl.className = 'error';
-        msgEl.textContent = 'Please type a new password.';
-        return;
-      }
-      try {
-        await updatePassword(auth.currentUser, newPass);
-        msgEl.className = 'success';
-        msgEl.textContent = 'Password updated!';
-        document.getElementById('new-password').value = '';
-      } catch (err) {
-        msgEl.className = 'error';
-        msgEl.textContent = err.message;
-      }
-    });
-
-    document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
-
-    // Auth State Monitor
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        document.getElementById('login-box').classList.add('hidden');
-        document.getElementById('signup-box').classList.add('hidden');
-        document.getElementById('dashboard-box').classList.remove('hidden');
-
-        document.getElementById('setting-email').textContent = user.email;
-
-        try {
-          const snapshot = await get(child(ref(db), `members/${user.uid}`));
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-            document.getElementById('user-display-name').textContent = data.username || user.email;
-            document.getElementById('setting-phone').textContent = data.phone || 'Not set';
-            document.getElementById('setting-dob').textContent = data.birthday || 'Not set';
-            document.getElementById('setting-joined').textContent = data.joinedAt || 'Today';
-          }
-        } catch (err) {
-          console.error(err);
-        }
+    // Check for secret passcode SYAFA
+    unlockBtn.addEventListener('click', () => {
+      const code = accessCodeInput.value.trim();
+      if (code === 'SYAFA') {
+        publicView.classList.add('hidden');
+        devView.classList.remove('hidden');
+        codeError.textContent = '';
       } else {
-        document.getElementById('dashboard-box').classList.add('hidden');
-        document.getElementById('signup-box').classList.add('hidden');
-        document.getElementById('login-box').classList.remove('hidden');
+        codeError.textContent = 'Invalid Access Code.';
       }
+    });
+
+    // Exit developer mode back to public coming soon screen
+    lockBtn.addEventListener('click', () => {
+      devView.classList.add('hidden');
+      publicView.classList.remove('hidden');
+      secretBox.classList.add('hidden');
+      accessCodeInput.value = '';
     });
   </script>
 </body>
