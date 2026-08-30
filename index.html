@@ -4,40 +4,97 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NLS Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px 0; box-sizing: border-box; }
-    .card { background: #1e1e1e; padding: 30px; border-radius: 8px; width: 100%; max-width: 380px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); text-align: center; }
-    h2 { margin-bottom: 20px; color: #4fc3f7; }
-    h3 { margin-top: 20px; color: #e0e0e0; border-bottom: 1px solid #333; padding-bottom: 5px; text-align: left; }
-    input, select { width: 100%; padding: 10px; margin: 8px 0; border-radius: 4px; border: 1px solid #333; background: #2a2a2a; color: #fff; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body {
+      background: radial-gradient(circle at top left, #1a1c29, #0a0b10);
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: rgba(22, 27, 34, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 35px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 { font-size: 26px; font-weight: 700; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 24px; text-align: center; }
+    h3 { font-size: 14px; text-transform: uppercase; tracking: 1px; color: #94a3b8; margin: 24px 0 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px; text-align: left; }
+    .form-group { text-align: left; margin-bottom: 14px; }
+    label { display: block; font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 6px; }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(15, 23, 42, 0.6);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    input:focus, select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
     .dob-group { display: flex; gap: 8px; }
     .dob-group select { width: 33.33%; }
-    label { display: block; text-align: left; font-size: 12px; color: #aaa; margin-top: 8px; }
-    button { width: 100%; padding: 10px; margin-top: 10px; border: none; border-radius: 4px; background: #0288d1; color: white; font-weight: bold; cursor: pointer; }
-    button:hover { background: #039be5; }
-    .btn-google { background: #ea4335; margin-top: 15px; }
-    .btn-google:hover { background: #d93025; }
-    .btn-action { background: #388e3c; }
-    .btn-action:hover { background: #43a047; }
-    p { font-size: 14px; color: #aaa; margin-top: 15px; }
-    a { color: #4fc3f7; cursor: pointer; text-decoration: underline; }
-    .hidden { display: none; }
-    .error { color: #ff5252; font-size: 13px; margin-top: 10px; }
-    .success { color: #66bb6a; font-size: 13px; margin-top: 10px; }
-    .divider { margin: 15px 0; border-bottom: 1px solid #333; line-height: 0.1em; }
-    .divider span { background:#1e1e1e; padding:0 10px; color: #777; font-size: 12px; }
-    .info-row { display: flex; justify-content: space-between; font-size: 13px; margin: 8px 0; border-bottom: 1px solid #2a2a2a; padding-bottom: 6px; }
-    .info-label { color: #aaa; }
-    .info-val { color: #fff; font-weight: bold; word-break: break-all; }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.1s ease, filter 0.2s ease;
+    }
+    button:hover { filter: brightness(1.1); }
+    button:active { transform: scale(0.98); }
+    .btn-google { background: #ea4335; margin-top: 14px; }
+    .btn-action { background: linear-gradient(135deg, #16a34a, #059669); }
+    p { font-size: 13px; color: #94a3b8; margin-top: 18px; text-align: center; }
+    a { color: #38bdf8; font-weight: 600; cursor: pointer; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .hidden { display: none !important; }
+    .error { color: #f87171; font-size: 13px; margin-top: 10px; text-align: center; }
+    .success { color: #4ade80; font-size: 13px; margin-top: 10px; text-align: center; }
+    .divider { margin: 20px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); line-height: 0.1em; text-align: center; }
+    .divider span { background: #161b22; padding: 0 10px; color: #64748b; font-size: 12px; }
+    .info-row { display: flex; justify-content: space-between; font-size: 13px; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    .info-label { color: #94a3b8; }
+    .info-val { color: #fff; font-weight: 600; }
   </style>
 </head>
 <body>
 
-  <!-- LOGIN CONTAINER -->
   <div id="login-box" class="card">
     <h2>NLS Studio Login</h2>
-    <input type="email" id="login-email" placeholder="Email" required>
-    <input type="password" id="login-password" placeholder="Password" required>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="name@domain.com" required>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="••••••••" required>
+    </div>
     <button id="btn-login">Log In</button>
     
     <div class="divider"><span>OR</span></div>
@@ -47,31 +104,45 @@
     <p>Don't have an account? <a id="go-to-signup">Sign Up</a></p>
   </div>
 
-  <!-- SIGN UP CONTAINER -->
   <div id="signup-box" class="card hidden">
     <h2>Join NLS Studio</h2>
-    <input type="text" id="signup-username" placeholder="Username" required>
-    <input type="email" id="signup-email" placeholder="Email" required>
-    <input type="password" id="signup-password" placeholder="Password" required>
-    <input type="tel" id="signup-phone" placeholder="Phone Number (optional)">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="signup-username" placeholder="Choose a handle" required>
+    </div>
     
-    <label>Birthday</label>
-    <div class="dob-group">
-      <select id="dob-month" required>
-        <option value="" disabled selected>Month</option>
-        <option value="Jan">Jan</option><option value="Feb">Feb</option>
-        <option value="Mar">Mar</option><option value="Apr">Apr</option>
-        <option value="May">May</option><option value="Jun">Jun</option>
-        <option value="Jul">Jul</option><option value="Aug">Aug</option>
-        <option value="Sep">Sep</option><option value="Oct">Oct</option>
-        <option value="Nov">Nov</option><option value="Dec">Dec</option>
-      </select>
-      <select id="dob-day" required>
-        <option value="" disabled selected>Day</option>
-      </select>
-      <select id="dob-year" required>
-        <option value="" disabled selected>Year</option>
-      </select>
+    <div class="form-group">
+      <label>Birthday</label>
+      <div class="dob-group">
+        <select id="dob-month" required>
+          <option value="" disabled selected>Month</option>
+          <option value="Jan">Jan</option><option value="Feb">Feb</option>
+          <option value="Mar">Mar</option><option value="Apr">Apr</option>
+          <option value="May">May</option><option value="Jun">Jun</option>
+          <option value="Jul">Jul</option><option value="Aug">Aug</option>
+          <option value="Sep">Sep</option><option value="Oct">Oct</option>
+          <option value="Nov">Nov</option><option value="Dec">Dec</option>
+        </select>
+        <select id="dob-day" required>
+          <option value="" disabled selected>Day</option>
+        </select>
+        <select id="dob-year" required>
+          <option value="" disabled selected>Year</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="signup-email" placeholder="name@domain.com" required>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="signup-password" placeholder="••••••••" required>
+    </div>
+    <div class="form-group">
+      <label>Phone Number (Optional)</label>
+      <input type="tel" id="signup-phone" placeholder="+1 234 567 8900">
     </div>
 
     <button id="btn-signup">Create Account</button>
@@ -83,48 +154,27 @@
     <p>Already a member? <a id="go-to-login">Log In</a></p>
   </div>
 
-  <!-- DASHBOARD & SETTINGS CONTAINER -->
   <div id="dashboard-box" class="card hidden">
-    <h2>NLS Studio Dashboard</h2>
-    <p>Welcome back, <strong id="user-display-name">...</strong>!</p>
+    <h2>NLS Studio</h2>
+    <p>Welcome back, <strong id="user-display-name" style="color:#38bdf8;">...</strong></p>
     
-    <h3>Account Settings</h3>
-    
-    <div class="info-row">
-      <span class="info-label">Email:</span>
-      <span id="setting-email" class="info-val">...</span>
-    </div>
-    
-    <div class="info-row">
-      <span class="info-label">Password:</span>
-      <span id="setting-password" class="info-val">••••••••</span>
-    </div>
+    <h3>Account Details</h3>
+    <div class="info-row"><span class="info-label">Email</span><span id="setting-email" class="info-val">...</span></div>
+    <div class="info-row"><span class="info-label">Password</span><span class="info-val">••••••••</span></div>
+    <div class="info-row"><span class="info-label">Phone</span><span id="setting-phone" class="info-val">Not set</span></div>
+    <div class="info-row"><span class="info-label">Birthday</span><span id="setting-dob" class="info-val">Not set</span></div>
+    <div class="info-row"><span class="info-label">Joined</span><span id="setting-joined" class="info-val">...</span></div>
 
-    <div class="info-row">
-      <span class="info-label">Phone Number:</span>
-      <span id="setting-phone" class="info-val">Not set</span>
+    <h3>Security</h3>
+    <div class="form-group">
+      <input type="password" id="new-password" placeholder="Enter new password">
     </div>
-
-    <div class="info-row">
-      <span class="info-label">Birthday:</span>
-      <span id="setting-dob" class="info-val">Not set</span>
-    </div>
-
-    <div class="info-row">
-      <span class="info-label">Joined Date:</span>
-      <span id="setting-joined" class="info-val">...</span>
-    </div>
-
-    <h3>Change Password</h3>
-    <input type="password" id="new-password" placeholder="New Password">
     <button id="btn-change-pass" class="btn-action">Update Password</button>
     
     <p id="settings-msg"></p>
-
-    <button id="btn-logout" style="background: #d32f2f; margin-top: 20px;">Sign Out</button>
+    <button id="btn-logout" style="background: #dc2626; margin-top: 20px;">Sign Out</button>
   </div>
 
-  <!-- FIREBASE MODULE LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updatePassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -137,8 +187,7 @@
       projectId: "nls-studio-official",
       storageBucket: "nls-studio-official.firebasestorage.app",
       messagingSenderId: "182900300287",
-      appId: "1:182900300287:web:dcb9a143b04130a8d66fca",
-      measurementId: "G-NZPWP75L62"
+      appId: "1:182900300287:web:dcb9a143b04130a8d66fca"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -146,7 +195,7 @@
     const db = getDatabase(app);
     const googleProvider = new GoogleAuthProvider();
 
-    // Populate Roblox-style Date Dropdowns
+    // Populate Roblox-style Date Pickers
     const daySelect = document.getElementById('dob-day');
     for (let i = 1; i <= 31; i++) {
       let opt = document.createElement('option');
@@ -155,32 +204,26 @@
     }
 
     const yearSelect = document.getElementById('dob-year');
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i >= 1920; i--) {
+    for (let i = 2026; i >= 1920; i--) {
       let opt = document.createElement('option');
       opt.value = i; opt.textContent = i;
       yearSelect.appendChild(opt);
     }
 
-    const loginBox = document.getElementById('login-box');
-    const signupBox = document.getElementById('signup-box');
-    const dashboardBox = document.getElementById('dashboard-box');
-
     // Toggle Forms
     document.getElementById('go-to-signup').addEventListener('click', () => {
-      loginBox.classList.add('hidden');
-      signupBox.classList.remove('hidden');
+      document.getElementById('login-box').classList.add('hidden');
+      document.getElementById('signup-box').classList.remove('hidden');
     });
     document.getElementById('go-to-login').addEventListener('click', () => {
-      signupBox.classList.add('hidden');
-      loginBox.classList.remove('hidden');
+      document.getElementById('signup-box').classList.add('hidden');
+      document.getElementById('login-box').classList.remove('hidden');
     });
 
-    // Save profile details to Realtime Database
+    // Save Database Record
     async function handleUserData(user, customData = {}) {
       const userRef = ref(db, 'members/' + user.uid);
       const snapshot = await get(userRef);
-
       if (!snapshot.exists()) {
         await set(userRef, {
           username: customData.username || user.displayName || user.email.split('@')[0],
@@ -192,7 +235,7 @@
       }
     }
 
-    // Google Sign-In
+    // Handlers
     const loginWithGoogle = async () => {
       try {
         const result = await signInWithPopup(auth, googleProvider);
@@ -206,7 +249,6 @@
     document.getElementById('btn-google-login').addEventListener('click', loginWithGoogle);
     document.getElementById('btn-google-signup').addEventListener('click', loginWithGoogle);
 
-    // Email Sign Up
     document.getElementById('btn-signup').addEventListener('click', async () => {
       const email = document.getElementById('signup-email').value;
       const password = document.getElementById('signup-password').value;
@@ -215,26 +257,22 @@
       const m = document.getElementById('dob-month').value;
       const d = document.getElementById('dob-day').value;
       const y = document.getElementById('dob-year').value;
-
       const errorEl = document.getElementById('signup-error');
       errorEl.textContent = '';
 
       if (!m || !d || !y) {
-        errorEl.textContent = "Please select a valid birthday.";
+        errorEl.textContent = "Please select your complete birthday.";
         return;
       }
 
-      const birthday = `${m} ${d}, ${y}`;
-
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await handleUserData(userCredential.user, { username, phone, birthday });
+        await handleUserData(userCredential.user, { username, phone, birthday: `${m} ${d}, ${y}` });
       } catch (err) {
         errorEl.textContent = err.message;
       }
     });
 
-    // Email Log In
     document.getElementById('btn-login').addEventListener('click', async () => {
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
@@ -248,21 +286,18 @@
       }
     });
 
-    // Change Password Action
     document.getElementById('btn-change-pass').addEventListener('click', async () => {
       const newPass = document.getElementById('new-password').value;
       const msgEl = document.getElementById('settings-msg');
-      
       if (!newPass) {
         msgEl.className = 'error';
-        msgEl.textContent = 'Please enter a new password.';
+        msgEl.textContent = 'Please type a new password.';
         return;
       }
-
       try {
         await updatePassword(auth.currentUser, newPass);
         msgEl.className = 'success';
-        msgEl.textContent = 'Password updated successfully!';
+        msgEl.textContent = 'Password updated!';
         document.getElementById('new-password').value = '';
       } catch (err) {
         msgEl.className = 'error';
@@ -270,40 +305,33 @@
       }
     });
 
-    // Log Out Action
-    document.getElementById('btn-logout').addEventListener('click', () => {
-      signOut(auth);
-    });
+    document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
 
-    // Auth State Observer
+    // Auth State Monitor
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        loginBox.classList.add('hidden');
-        signupBox.classList.add('hidden');
-        dashboardBox.classList.remove('hidden');
+        document.getElementById('login-box').classList.add('hidden');
+        document.getElementById('signup-box').classList.add('hidden');
+        document.getElementById('dashboard-box').classList.remove('hidden');
 
         document.getElementById('setting-email').textContent = user.email;
 
-        // Fetch user metadata from Realtime Database
-        const dbRef = ref(db);
         try {
-          const snapshot = await get(child(dbRef, `members/${user.uid}`));
+          const snapshot = await get(child(ref(db), `members/${user.uid}`));
           if (snapshot.exists()) {
             const data = snapshot.val();
             document.getElementById('user-display-name').textContent = data.username || user.email;
             document.getElementById('setting-phone').textContent = data.phone || 'Not set';
             document.getElementById('setting-dob').textContent = data.birthday || 'Not set';
-            document.getElementById('setting-joined').textContent = data.joinedAt || 'Unknown';
-          } else {
-            document.getElementById('user-display-name').textContent = user.email;
+            document.getElementById('setting-joined').textContent = data.joinedAt || 'Today';
           }
         } catch (err) {
           console.error(err);
         }
       } else {
-        dashboardBox.classList.add('hidden');
-        signupBox.classList.add('hidden');
-        loginBox.classList.remove('hidden');
+        document.getElementById('dashboard-box').classList.add('hidden');
+        document.getElementById('signup-box').classList.add('hidden');
+        document.getElementById('login-box').classList.remove('hidden');
       }
     });
   </script>
