@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NLS Studio</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .card { background: #1e1e1e; padding: 30px; border-radius: 8px; width: 100%; max-width: 350px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); text-align: center; }
+    h2 { margin-bottom: 20px; color: #4fc3f7; }
+    input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 4px; border: 1px solid #333; background: #2a2a2a; color: #fff; box-sizing: border-box; }
+    button { width: 100%; padding: 10px; margin-top: 10px; border: none; border-radius: 4px; background: #0288d1; color: white; font-weight: bold; cursor: pointer; }
+    button:hover { background: #039be5; }
+    .btn-google { background: #ea4335; margin-top: 15px; }
+    .btn-google:hover { background: #d93025; }
+    p { font-size: 14px; color: #aaa; margin-top: 15px; }
+    a { color: #4fc3f7; cursor: pointer; text-decoration: underline; }
+    .hidden { display: none; }
+    .error { color: #ff5252; font-size: 13px; margin-top: 10px; }
+    .divider { margin: 15px 0; border-bottom: 1px solid #333; line-height: 0.1em; }
+    .divider span { background:#1e1e1e; padding:0 10px; color: #777; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN CONTAINER -->
+  <div id="login-box" class="card">
+    <h2>NLS Studio Login</h2>
+    <input type="email" id="login-email" placeholder="Email" required>
+    <input type="password" id="login-password" placeholder="Password" required>
+    <button id="btn-login">Log In</button>
+    
+    <div class="divider"><span>OR</span></div>
+    <button id="btn-google-login" class="btn-google">Sign in with Google</button>
+
+    <p id="login-error" class="error"></p>
+    <p>Don't have an account? <a id="go-to-signup">Sign Up</a></p>
+  </div>
+
+  <!-- SIGN UP CONTAINER -->
+  <div id="signup-box" class="card hidden">
+    <h2>Join NLS Studio</h2>
+    <input type="text" id="signup-username" placeholder="Username" required>
+    <input type="email" id="signup-email" placeholder="Email" required>
+    <input type="password" id="signup-password" placeholder="Password" required>
+    <button id="btn-signup">Create Account</button>
+    
+    <div class="divider"><span>OR</span></div>
+    <button id="btn-google-signup" class="btn-google">Sign up with Google</button>
+
+    <p id="signup-error" class="error"></p>
+    <p>Already a member? <a id="go-to-login">Log In</a></p>
+  </div>
+
+  <!-- DASHBOARD CONTAINER -->
+  <div id="dashboard-box" class="card hidden">
+    <h2>NLS Studio Dashboard</h2>
+    <p>Welcome back, <strong id="user-display-name">...</strong>!</p>
+    <p>Member Status: <span style="color:#4caf50;">Active</span></p>
+    <button id="btn-logout" style="background: #d32f2f;">Sign Out</button>
+  </div>
+
+  <!-- FIREBASE MODULE LOGIC -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCHKeqNYWuhLEg12Tge0ND5WjDlQurua_0",
+      authDomain: "nls-studio-official.firebaseapp.com",
+      databaseURL: "https://nls-studio-official-default-rtdb.firebaseio.com",
+      projectId: "nls-studio-official",
+      storageBucket: "nls-studio-official.firebasestorage.app",
+      messagingSenderId: "182900300287",
+      appId: "1:182900300287:web:dcb9a143b04130a8d66fca",
+      measurementId: "G-NZPWP75L62"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    const loginBox = document.getElementById('login-box');
+    const signupBox = document.getElementById('signup-box');
+    const dashboardBox = document.getElementById('dashboard-box');
+
+    // Toggle Forms
+    document.getElementById('go-to-signup').addEventListener('click', () => {
+      loginBox.classList.add('hidden');
+      signupBox.classList.remove('hidden');
+    });
+    document.getElementById('go-to-login').addEventListener('click', () => {
+      signupBox.classList.add('hidden');
+      loginBox.classList.remove('hidden');
+    });
+
+    // Save user profile to Realtime Database if it doesn't exist yet
+    async function handleUserData(user, customUsername = null) {
+      const userRef = ref(db, 'members/' + user.uid);
+      const snapshot = await get(userRef);
+
+      if (!snapshot.exists()) {
+        await set(userRef, {
+          username: customUsername || user.displayName || user.email.split('@')[0],
+          email: user.email,
+          joinedAt: new Date().toISOString()
+        });
+      }
+    }
+
+    // Google Sign-In Handler
+    const loginWithGoogle = async () => {
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        await handleUserData(result.user);
+      } catch (err) {
+        document.getElementById('login-error').textContent = err.message;
+        document.getElementById('signup-error').textContent = err.message;
+      }
+    };
+
+    document.getElementById('btn-google-login').addEventListener('click', loginWithGoogle);
+    document.getElementById('btn-google-signup').addEventListener('click', loginWithGoogle);
+
+    // Email Sign Up Action
+    document.getElementById('btn-signup').addEventListener('click', async () => {
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const username = document.getElementById('signup-username').value;
+      const errorEl = document.getElementById('signup-error');
+      errorEl.textContent = '';
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await handleUserData(userCredential.user, username);
+      } catch (err) {
+        errorEl.textContent = err.message;
+      }
+    });
+
+    // Email Log In Action
+    document.getElementById('btn-login').addEventListener('click', async () => {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const errorEl = document.getElementById('login-error');
+      errorEl.textContent = '';
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        errorEl.textContent = err.message;
+      }
+    });
+
+    // Log Out Action
+    document.getElementById('btn-logout').addEventListener('click', () => {
+      signOut(auth);
+    });
+
+    // Auth State Observer
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        loginBox.classList.add('hidden');
+        signupBox.classList.add('hidden');
+        dashboardBox.classList.remove('hidden');
+
+        const dbRef = ref(db);
+        try {
+          const snapshot = await get(child(dbRef, `members/${user.uid}`));
+          if (snapshot.exists()) {
+            document.getElementById('user-display-name').textContent = snapshot.val().username;
+          } else {
+            document.getElementById('user-display-name').textContent = user.displayName || user.email;
+          }
+        } catch (err) {
+          document.getElementById('user-display-name').textContent = user.displayName || user.email;
+        }
+      } else {
+        dashboardBox.classList.add('hidden');
+        signupBox.classList.add('hidden');
+        loginBox.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
