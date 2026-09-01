@@ -1,237 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NLS Studio - Coming Soon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NLS Studio</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body {
-      background: radial-gradient(circle at top left, #0f172a, #020617, #000000);
-      color: #f8fafc;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      overflow: hidden;
-    }
-    .container {
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
-      padding: 45px 35px;
-      width: 100%;
-      max-width: 460px;
-      text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-      position: relative;
-      animation: fadeIn 0.6s ease-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #38bdf8;
-      font-size: 11px;
-      font-weight: 700;
-      border-radius: 50px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 20px;
-    }
-    .pulse-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #38bdf8;
-      border-radius: 50%;
-      box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
-      animation: pulse 1.8s infinite;
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-    }
-    h1 {
-      font-size: 36px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 30%, #38bdf8 70%, #818cf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
-    }
-    p.description {
-      font-size: 14px;
-      color: #94a3b8;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-    .secret-trigger {
-      font-size: 28px;
-      cursor: pointer;
-      user-select: none;
-      display: inline-block;
-      transition: transform 0.2s ease, filter 0.2s ease;
-      margin-bottom: 10px;
-    }
-    .secret-trigger:hover {
-      transform: scale(1.15) rotate(10deg);
-      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
-    }
-    .hidden { display: none !important; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: #0b0f19; color: #ffffff; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
     
-    /* SECRET ACCESS FORM */
-    .secret-box {
-      margin-top: 15px;
-      animation: fadeIn 0.3s ease-out;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(15, 23, 42, 0.8);
-      color: #fff;
-      font-size: 14px;
-      text-align: center;
-      letter-spacing: 2px;
-      outline: none;
-      text-transform: uppercase;
-      transition: border-color 0.2s ease;
-    }
-    input:focus { border-color: #38bdf8; }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #0284c7, #2563eb);
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: filter 0.2s ease;
-    }
-    button:hover { filter: brightness(1.1); }
-    .error-msg { color: #f87171; font-size: 12px; margin-top: 8px; }
+    /* Landing Page Card */
+    .card { background: #111827; border: 1px solid #1f2937; padding: 2.5rem; border-radius: 16px; text-align: center; max-width: 420px; width: 90%; }
+    .badge { display: inline-block; background: #1e293b; color: #38bdf8; font-size: 0.8rem; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 1rem; }
+    h1 { font-size: 1.8rem; margin-bottom: 0.8rem; }
+    p { color: #9ca3af; font-size: 0.95rem; line-height: 1.5; }
 
-    /* DEV DASHBOARD */
-    .dev-badge {
-      background: rgba(34, 197, 94, 0.15);
-      border-color: rgba(34, 197, 94, 0.4);
-      color: #4ade80;
-    }
-    .dev-dot { background-color: #4ade80; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
-    .status-card {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 16px;
-      margin: 20px 0;
-      text-align: left;
-    }
-    .progress-bar {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 45%;
-      background: linear-gradient(90deg, #4ade80, #38bdf8);
-      border-radius: 4px;
-    }
-    .btn-exit { background: #dc2626; margin-top: 20px; }
+    /* Developer Modal Window */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; }
+    .modal { background: #1f2937; border: 1px solid #374151; width: 90%; max-width: 380px; padding: 2rem; border-radius: 12px; position: relative; }
+    .modal-title { font-size: 1.25rem; font-weight: bold; color: #10b981; margin-bottom: 0.5rem; text-align: center; }
+    .modal-subtitle { font-size: 0.85rem; color: #9ca3af; text-align: center; margin-bottom: 1.5rem; }
+
+    /* Form & Login Elements */
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.8rem; color: #d1d5db; margin-bottom: 0.4rem; text-align: left; }
+    .form-group input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #4b5563; background: #111827; color: #fff; font-size: 0.9rem; }
+    .btn { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; }
+    .btn:hover { background: #1d4ed8; }
+    .close-btn { position: absolute; top: 12px; right: 15px; color: #9ca3af; cursor: pointer; font-size: 1.2rem; }
   </style>
 </head>
 <body>
 
-  <!-- PUBLIC COMING SOON CARD -->
-  <div id="public-view" class="container">
-    <div class="secret-trigger" id="secret-btn" title="???">🛠️</div>
-    <br>
-    <div class="badge"><div class="pulse-dot"></div> Under Development</div>
+  <!-- Landing Page Content -->
+  <div class="card">
+    <div class="badge">🛠 UNDER DEVELOPMENT</div>
     <h1>NLS Studio</h1>
-    <p class="description">We are crafting something extraordinary. Our platform is currently undergoing active development and will launch soon.</p>
+    <p>We are crafting something extraordinary. Our platform is currently undergoing active development and will launch soon.</p>
+  </div>
 
-    <!-- SECRET CODE INPUT AREA -->
-    <div id="secret-box" class="secret-box hidden">
-      <input type="password" id="access-code" placeholder="Enter Access Code">
-      <button id="btn-unlock">Unlock Developer Portal</button>
-      <p id="code-error" class="error-msg"></p>
+  <!-- Developer Mode Login Modal -->
+  <div class="modal-overlay" id="devModal">
+    <div class="modal">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <div class="modal-title">🔓 Developer Mode</div>
+      <p class="modal-subtitle">Authenticate with Firebase to access console</p>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Developer Email</label>
+          <input type="email" id="email" required placeholder="dev@nlsstudio.online" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="••••••••" />
+        </div>
+        <button type="submit" class="btn">Login to Portal</button>
+      </form>
     </div>
   </div>
 
-  <!-- DEVELOPER MODE DASHBOARD -->
-  <div id="dev-view" class="container hidden">
-    <div class="badge dev-badge"><div class="pulse-dot dev-dot"></div> Developer Mode</div>
-    <h1>Welcome, Developer</h1>
-    <p class="description">Authenticated Session Active. You have full system preview privileges.</p>
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    <div class="status-card">
-      <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;">
-        <span>Official Build Progress</span>
-        <span style="color: #4ade80;">45% Ready</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill"></div>
-      </div>
-    </div>
+    // Your Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "nlsstudio.online",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
 
-    <button id="btn-lock" class="btn-exit">Exit Developer Mode</button>
-  </div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  <script>
-    const secretBtn = document.getElementById('secret-btn');
-    const secretBox = document.getElementById('secret-box');
-    const accessCodeInput = document.getElementById('access-code');
-    const unlockBtn = document.getElementById('btn-unlock');
-    const codeError = document.getElementById('code-error');
-    const publicView = document.getElementById('public-view');
-    const devView = document.getElementById('dev-view');
-    const lockBtn = document.getElementById('btn-lock');
+    // Secret Code Listener (SYAFA)
+    let typedKeys = "";
+    const secretCode = "SYAFA";
+    const devModal = document.getElementById("devModal");
+    const closeModal = document.getElementById("closeModal");
 
-    // Toggle secret code input box on tapping icon
-    secretBtn.addEventListener('click', () => {
-      secretBox.classList.toggle('hidden');
-      codeError.textContent = '';
-      accessCodeInput.value = '';
-    });
-
-    // Check for secret passcode SYAFA
-    unlockBtn.addEventListener('click', () => {
-      const code = accessCodeInput.value.trim();
-      if (code === 'SYAFA') {
-        publicView.classList.add('hidden');
-        devView.classList.remove('hidden');
-        codeError.textContent = '';
-      } else {
-        codeError.textContent = 'Invalid Access Code.';
+    window.addEventListener("keydown", (e) => {
+      typedKeys += e.key.toUpperCase();
+      if (typedKeys.length > secretCode.length) {
+        typedKeys = typedKeys.substr(typedKeys.length - secretCode.length);
+      }
+      if (typedKeys === secretCode) {
+        devModal.style.display = "flex";
+        typedKeys = ""; 
       }
     });
 
-    // Exit developer mode back to public coming soon screen
-    lockBtn.addEventListener('click', () => {
-      devView.classList.add('hidden');
-      publicView.classList.remove('hidden');
-      secretBox.classList.add('hidden');
-      accessCodeInput.value = '';
+    closeModal.addEventListener("click", () => {
+      devModal.style.display = "none";
+    });
+
+    // Firebase Login Handling
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        alert("Authenticated as Developer: " + userCredential.user.email);
+        // Redirect or load developer tools here
+      } catch (error) {
+        alert("Authentication failed: " + error.message);
+      }
     });
   </script>
 </body>
