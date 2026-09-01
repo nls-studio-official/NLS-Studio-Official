@@ -5,66 +5,217 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NLS Studio</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: #0b0f19; color: #ffffff; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    :root {
+      --bg: #08080a;
+      --card-bg: rgba(18, 18, 24, 0.7);
+      --red: #ff2a5f;
+      --blue: #00d2ff;
+      --text: #f0f0f5;
+      --text-muted: #8a8a9e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
     
-    /* Landing Page Card */
-    .card { background: #111827; border: 1px solid #1f2937; padding: 2.5rem; border-radius: 16px; text-align: center; max-width: 420px; width: 90%; }
-    .badge { display: inline-block; background: #1e293b; color: #38bdf8; font-size: 0.8rem; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 1rem; }
-    h1 { font-size: 1.8rem; margin-bottom: 0.8rem; }
-    p { color: #9ca3af; font-size: 0.95rem; line-height: 1.5; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Glow Orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.4;
+      pointer-events: none;
+      animation: float 12s infinite alternate ease-in-out;
+    }
+    .orb-red {
+      width: 320px;
+      height: 320px;
+      background: var(--red);
+      top: -10%;
+      left: -10%;
+    }
+    .orb-blue {
+      width: 380px;
+      height: 380px;
+      background: var(--blue);
+      bottom: -15%;
+      right: -10%;
+      animation-delay: -6s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.1); }
+    }
+
+    /* Landing Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 2.5rem;
+      border-radius: 24px;
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      position: relative;
+      z-index: 10;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 42, 95, 0.12);
+      border: 1px solid rgba(255, 42, 95, 0.3);
+      color: var(--red);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 1.2rem;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--red);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
 
     /* Developer Modal Window */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; }
-    .modal { background: #1f2937; border: 1px solid #374151; width: 90%; max-width: 380px; padding: 2rem; border-radius: 12px; position: relative; }
-    .modal-title { font-size: 1.25rem; font-weight: bold; color: #10b981; margin-bottom: 0.5rem; text-align: center; }
-    .modal-subtitle { font-size: 0.85rem; color: #9ca3af; text-align: center; margin-bottom: 1.5rem; }
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
 
-    /* Form & Login Elements */
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-size: 0.8rem; color: #d1d5db; margin-bottom: 0.4rem; text-align: left; }
-    .form-group input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #4b5563; background: #111827; color: #fff; font-size: 0.9rem; }
-    .btn { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; }
-    .btn:hover { background: #1d4ed8; }
-    .close-btn { position: absolute; top: 12px; right: 15px; color: #9ca3af; cursor: pointer; font-size: 1.2rem; }
+    .modal {
+      background: #0d0d12;
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      width: 90%;
+      max-width: 380px;
+      padding: 2rem;
+      border-radius: 20px;
+      position: relative;
+      box-shadow: 0 0 40px rgba(0, 210, 255, 0.15);
+    }
+
+    .close-btn { position: absolute; top: 15px; right: 20px; color: var(--text-muted); cursor: pointer; font-size: 1.4rem; }
+
+    .tab-group { display: flex; gap: 8px; margin-bottom: 1.2rem; background: #14141c; padding: 4px; border-radius: 12px; }
+    .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); font-weight: 600; font-size: 0.85rem; padding: 8px; border-radius: 8px; cursor: pointer; }
+    .tab-btn.active { background: #1e1e28; color: var(--blue); }
+
+    .auth-form { display: none; flex-direction: column; gap: 0.8rem; }
+    .auth-form.active { display: flex; }
+
+    .input-field { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #222230; background: #08080a; color: #fff; font-size: 0.9rem; }
+    .input-field:focus { outline: none; border-color: var(--blue); }
+
+    .btn-main { padding: 12px; background: var(--red); color: #fff; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; }
+    .btn-google { padding: 10px; background: #fff; color: #000; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 0.8rem; font-size: 0.85rem; width: 100%; }
+
+    /* Dashboard Interface */
+    .dashboard { display: none; width: 90%; max-width: 700px; background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 2rem; position: relative; z-index: 10; }
+    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+    .grid-card { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); padding: 1.2rem; border-radius: 16px; }
+    .grid-card h3 { color: var(--blue); font-size: 0.85rem; margin-bottom: 0.4rem; }
+    .grid-card .stat { font-size: 1.4rem; font-weight: 700; color: var(--red); }
   </style>
 </head>
 <body>
 
-  <!-- Landing Page Content -->
-  <div class="card">
-    <div class="badge">🛠 UNDER DEVELOPMENT</div>
+  <!-- Animated Ambient Orbs -->
+  <div class="orb orb-red"></div>
+  <div class="orb orb-blue"></div>
+
+  <!-- Main Card -->
+  <div class="card" id="landingCard">
+    <div class="badge"><span class="pulse-dot"></span> NLS ONLINE</div>
     <h1>NLS Studio</h1>
-    <p>We are crafting something extraordinary. Our platform is currently undergoing active development and will launch soon.</p>
+    <p>Systems active. Next-gen suite operational.</p>
   </div>
 
-  <!-- Developer Mode Login Modal -->
+  <!-- Developer Modal -->
   <div class="modal-overlay" id="devModal">
     <div class="modal">
       <span class="close-btn" id="closeModal">&times;</span>
-      <div class="modal-title">🔓 Developer Mode</div>
-      <p class="modal-subtitle">Authenticate with Firebase to access console</p>
       
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="email">Developer Email</label>
-          <input type="email" id="email" required placeholder="dev@nlsstudio.online" />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" required placeholder="••••••••" />
-        </div>
-        <button type="submit" class="btn">Login to Portal</button>
+      <div class="tab-group">
+        <button class="tab-btn active" id="tabLogin">Login</button>
+        <button class="tab-btn" id="tabSignup">Sign Up</button>
+      </div>
+
+      <form class="auth-form active" id="loginForm">
+        <input type="email" class="input-field" id="loginEmail" placeholder="Developer Email" required />
+        <input type="password" class="input-field" id="loginPassword" placeholder="Password" required />
+        <button type="submit" class="btn-main">Login</button>
       </form>
+
+      <form class="auth-form" id="signupForm">
+        <input type="email" class="input-field" id="signupEmail" placeholder="New Account Email" required />
+        <input type="password" class="input-field" id="signupPassword" placeholder="Password" required />
+        <button type="submit" class="btn-main" style="background: var(--blue); color: #000;">Sign Up</button>
+      </form>
+
+      <button class="btn-google" id="googleBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+        Google Sign In
+      </button>
     </div>
   </div>
 
-  <!-- Firebase SDKs -->
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashBoard">
+    <div class="dash-header">
+      <h2>NLS Console <span style="color: var(--blue); font-size: 0.8rem;" id="userDisplay"></span></h2>
+      <button class="btn-main" id="logoutBtn" style="padding: 6px 12px; font-size: 0.8rem;">Exit</button>
+    </div>
+    <div class="grid">
+      <div class="grid-card">
+        <h3>Status</h3>
+        <div class="stat" style="color: #10b981;">Online</div>
+      </div>
+      <div class="grid-card">
+        <h3>Domain</h3>
+        <div class="stat" style="font-size: 1rem; color: #fff;">nlsstudio.online</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    // Your Firebase Configuration
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
       authDomain: "nlsstudio.online",
@@ -76,42 +227,75 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-    // Secret Code Listener (SYAFA)
-    let typedKeys = "";
-    const secretCode = "SYAFA";
     const devModal = document.getElementById("devModal");
-    const closeModal = document.getElementById("closeModal");
+    const landingCard = document.getElementById("landingCard");
+    const dashBoard = document.getElementById("dashBoard");
+    const userDisplay = document.getElementById("userDisplay");
 
+    // Passcode Trigger (SYAFA)
+    let keys = "";
     window.addEventListener("keydown", (e) => {
-      typedKeys += e.key.toUpperCase();
-      if (typedKeys.length > secretCode.length) {
-        typedKeys = typedKeys.substr(typedKeys.length - secretCode.length);
-      }
-      if (typedKeys === secretCode) {
-        devModal.style.display = "flex";
-        typedKeys = ""; 
-      }
+      keys += e.key.toUpperCase();
+      if (keys.length > 5) keys = keys.substring(1);
+      if (keys === "SYAFA") { devModal.style.display = "flex"; keys = ""; }
     });
 
-    closeModal.addEventListener("click", () => {
+    document.getElementById("closeModal").onclick = () => devModal.style.display = "none";
+
+    // Tab Switching
+    const tabLogin = document.getElementById("tabLogin");
+    const tabSignup = document.getElementById("tabSignup");
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+
+    tabLogin.onclick = () => {
+      tabLogin.classList.add("active"); tabSignup.classList.remove("active");
+      loginForm.classList.add("active"); signupForm.classList.remove("active");
+    };
+    tabSignup.onclick = () => {
+      tabSignup.classList.add("active"); tabLogin.classList.remove("active");
+      signupForm.classList.add("active"); loginForm.classList.remove("active");
+    };
+
+    // Console Transition
+    const enterConsole = (user) => {
       devModal.style.display = "none";
-    });
+      landingCard.style.display = "none";
+      dashBoard.style.display = "block";
+      userDisplay.textContent = `[${user.email}]`;
+    };
 
-    // Firebase Login Handling
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    loginForm.onsubmit = async (e) => {
       e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        alert("Authenticated as Developer: " + userCredential.user.email);
-        // Redirect or load developer tools here
-      } catch (error) {
-        alert("Authentication failed: " + error.message);
-      }
-    });
+        const res = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
+        enterConsole(res.user);
+      } catch (err) { alert(err.message); }
+    };
+
+    signupForm.onsubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await createUserWithEmailAndPassword(auth, signupEmail.value, signupPassword.value);
+        enterConsole(res.user);
+      } catch (err) { alert(err.message); }
+    };
+
+    document.getElementById("googleBtn").onclick = async () => {
+      try {
+        const res = await signInWithPopup(auth, provider);
+        enterConsole(res.user);
+      } catch (err) { alert(err.message); }
+    };
+
+    document.getElementById("logoutBtn").onclick = () => {
+      signOut(auth).then(() => {
+        dashBoard.style.display = "none";
+        landingCard.style.display = "block";
+      });
+    };
   </script>
 </body>
 </html>
